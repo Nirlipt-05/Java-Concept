@@ -3,6 +3,8 @@
  * introduced in **1.1** version.
  * at first it was introduced as a part of Event handeling to fix the GUI bugs as a part of Event Handeling but because of this powerful features and benfits of inner class, slowly programmer have started using it in the day to day basis.
 
+***
+
 ## What is inner class and when we should go for Inner class?
 
 ***Declaring a class within another class*** is called Inner class.
@@ -174,3 +176,15 @@ public class Outer
 100
 10
 ````
+
+#### Modifiers allowed for inner classes-
+1. public
+2. default
+3. final
+4. staticfp
+5. abstract
+6. private 
+7. protected
+8. static
+
+***
