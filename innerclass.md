@@ -3,8 +3,6 @@
  * introduced in **1.1** version.
  * at first it was introduced as a part of Event handeling to fix the GUI bugs as a part of Event Handeling but because of this powerful features and benfits of inner class, slowly programmer have started using it in the day to day basis.
 
-***
-
 ## What is inner class and when we should go for Inner class?
 
 ***Declaring a class within another class*** is called Inner class.
@@ -187,4 +185,91 @@ public class Outer
 7. protected
 8. static
 
-***
+#### Nesting of inner class
+
+Inside an inner class we can declare another inner class i.e. ***Nesting of the inner class*** is possible.
+````
+class D
+{
+	class B
+	{
+		class C
+		{
+			public void m1()
+			{
+				System.out.println("Innermost class method");
+			}
+		}
+	}
+}
+
+public class Tester 
+{
+	public static void main(String[] args) 
+	{
+		D d= new D();
+		D.B b= d.new B();
+		D.B.C c= b.new C();
+		c.m1();
+	}
+}
+````
+
+### 2. Method Local Inner Class -
+
+* When we declare an ***inner class inside a method***, then those classes are called Method Local Inner Class.
+* Also called ***rarely used Inner Class.***
+* Will get executed when the method in which it is create is called **(Method called)**.
+
+#### The purpose of Method call-
+
+1. The main purpose of the method local inner class is to  **define the method specific repeatative required functionality**.
+2. Method local inner classes are best suited to **meet nested method requirement**.
+
+Example-
+````
+Suppose we have a program having high Line of code and in that case we want to call a 
+funtionality again and again.
+So in the case of reusable component we have "method" that is best suited. 
+But in java creation of a method inside a method is not allowed hence we have a concept where in we will created a Class of the method specific functionality inside of a method and call it when required again and again.
+So, inside method we can't declare a method but inside method we can declare a class and within that class we will declare the method that we want to use.
+So, we will create the object of the class and call it.
+````
+#### Scopes of the Method Local Inner Class-
+* As the scope of the method local inner class is very low hence they are ***rarely used***.
+* It is having the scope only within the method in which it is declared. It can't be **can't be accessed outside of the method**.
+
+>Anonymous Inner Classes are most commonly used.
+
+````
+public class MLICDemo 
+{
+	public void m1()
+	{
+		class In
+		{
+			public static void sum(int x,int y) 
+			{
+				int sum=x+y;
+				System.out.println("The Sum: "+sum);
+			}
+		}
+		In i= new In();
+		i.sum(10, 30);
+		i.sum(100, 300);
+		i.sum(2999, 34);
+	}
+	public static void main(String[] args) 
+	{
+		MLICDemo m= new MLICDemo();
+		m.m1();
+	}
+}
+````
+
+* ***We can declare Method Level Inner Class inside both instance and static method.***
+
+	If we declare inner class inside --***instance method***-- from that method local inner class, we can access both static & non-static member of the outer class directly.
+
+	If we declare the inner class inside --***Static Method***-- then we can access only static member of the outer class directly from the method local inner class.
+
