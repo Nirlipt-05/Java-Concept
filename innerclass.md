@@ -273,3 +273,132 @@ public class MLICDemo
 
 	If we declare the inner class inside --***Static Method***-- then we can access only static member of the outer class directly from the method local inner class.
 
+*  This the example of the Inner Class accessiblity-
+````
+public class TEst 
+{
+	int x=10;
+	static int y=20;
+	public void m1()
+	{
+		class Inner2
+		{
+			public void m2()
+			{
+				System.out.println(x);
+				System.out.println(y);
+			}
+		}
+		Inner2 i= new Inner2();
+		i.m2();
+	}
+	public static void main(String[] args) {
+		TEst t= new TEst();
+		t.m1();
+	}
+}
+````
+***If we declare m1() as static*** ,then we will get the **Compile Time Error** at the line where we will be printing the non-static variable ``x`` and would display *"non-static variable x can't be referenced from the static context"*.
+
+### 3. Anonymous Inner Class-
+
+* Sometimes we declare Inner Class without name and such type of inner class is called Anonymous Inner Class.
+
+* **Nameless Inner Class**.
+
+* **Main Purpose-**
+	
+	We create Anonymous Inner class only when we are having one time use(instant use).
+
+	There are 3 types of anonymous inner class based on declaration and behaviour=
+	
+	1. Anonymous inner class that **extends** a class.
+	2. Anonymous inner class that **implements** an interface.
+	3. Anonymous inner class that **define inside argument**.
+
+#### 1.Anonymous inner class that **extends** a class.=
+Whenever we have ***permanent requirement (regular)*** then there we need to go for **top level class** but if we are on-time or ***temporary requirement*** then we need to go for **anonymous inner class**.
+
+***Example-***
+````
+class Popcorn
+{
+	public void taste()
+	{
+		System.out.println("Salty");
+	}
+}
+public class AnonymousICC 
+{
+	public static void main(String[] args) {
+		Popcorn p=  new Popcorn() //it is the child class object.
+		{
+			public void taste()
+			{
+				System.out.println("spicy");
+			}
+		};
+		p.taste();
+		Popcorn p1= new Popcorn();// This is the popcorn class object.
+		p1.taste();
+		
+		Popcorn p2= new Popcorn()//it is the child class object
+				{
+					public void taste()
+					{
+						System.out.println("Sweet");
+					}
+				};
+		p2.taste();
+		System.out.println(p.getClass().getName());
+		System.out.println(p1.getClass().getName());
+		System.out.println(p2.getClass().getName());
+	}
+}
+````
+
+***Output-***
+
+````
+Salty
+Sweet
+innerclass.AnonymousICC$1
+innerclass.Popcorn
+innerclass.AnonymousICC$2
+````
+
+***The generated .class files are-***
+
+1. Popcorn.class
+2. Test.class
+3. Test$1.class
+4. Test$2.class
+
+***Analysis-***
+
+* Popcorn p= new Popcorn(); //here we are creating Popcorn object.
+* here the analysis of the below code
+
+````
+Popcorn p = new Popcorn()
+{
+	
+};
+````
+//here, 
+
+i. we are declaring a class that `extends` Popcorn without name ( Anonymous inner class ).
+
+ii. for that child class we are creating an object with the parent reference.
+
+* 
+````
+Popcorn p = new Popcorn()
+{
+	public void taste()
+	{
+		System.out.println("Spicy);
+	}
+}
+````
+
