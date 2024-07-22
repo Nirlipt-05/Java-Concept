@@ -31,7 +31,7 @@ JDBC provides platform independence, security and ease of use for Java developer
 
 ## JDBC Architecture
 
-![JDBC Architecture](JDBCStructure.png)
+![JDBC Architecture](https://i.ibb.co/0tRsgJW/JDBCStructure.png)
 
 * **Client**= A JDBC client is any java application or applet that connectts the server based database using JDBC APIs.
 
@@ -49,7 +49,7 @@ JDBC provides platform independence, security and ease of use for Java developer
 
 ## There are four types of JDBC drivers-
 
-![JDBC Drives type](JDBCDrivers.png)
+![JDBC Drives type](https://i.ibb.co/4gnXTN7/JDBCDrivers.png)
 1. JDBC- ODBC Bridge Driver.
 2. Native-API Partly Java Driver.
 3. Network Protocol Pure Java Driver.
@@ -70,7 +70,7 @@ deiver required a library specific to the database being access. Here the API is
 
 ## JDBC Components
 
-![JDBC Components](JDBCComponents.png)
+![JDBC Components](https://i.ibb.co/Jq3zxjd/JDBCComponents.png)
 
 In addition to JDBC drivers, there are several other componnts that make up the JDBC API, including:
 
@@ -101,7 +101,7 @@ These components works together to provide a  powerful and flexible API for work
 
 ### Statement Interface-
 
-![Statement Interface](Statement%20Interface.png)
+![Statement Interface](https://i.ibb.co/RcYyfDC/Statement-Interface.png)
 
 There are 3 types of statement interfaces i.e.-
 1. **Statement**= executes simple SQL queries without parameters and retrieve data.
@@ -110,7 +110,7 @@ There are 3 types of statement interfaces i.e.-
 
 ### Result Set
 
-![Result set](ResultSet.png)
+![Result set](https://i.ibb.co/3MNR2kG/Result-Set.png)
 
 It has the above 3 functionalities.
 It helps in retreiving the data that we got through the Statement Interface and stores it.
@@ -120,7 +120,7 @@ By the help of this we can-
 3.  Navigate the data.
 
 ## Summary/Work Flow of the JDBC components-
-> ![Working of JDBC Component](Working.png)
+> ![Working of JDBC Component](https://i.ibb.co/xLK76Dx/Working.png)
 
 In *DriverManager Class* we have a method call `.getConnecion()` to establish a connection between Database, here the connection will be stored in an instance of *connection interface*.
 To run SQL query in java we use *Statements and Prepared Statement Interface*.
@@ -133,7 +133,7 @@ Hence the **SQLException** class is responsible to handle the exception and erro
 
 ## Program Flow-
 
-![process flow](processflow.png)
+![process flow](https://i.ibb.co/XY6CFDd/processflow.png)
 
 1. We need to connect our IDE with the Database using neccessary connector of the database vendor.
 2. We need to load the necessary Drivers.
@@ -148,8 +148,8 @@ Hence the **SQLException** class is responsible to handle the exception and erro
 2. we need a Java IDE.
 3. we need to intall a connector of SQL.
 
-![My sql Connection](msqlConnection.png)
+![My sql Connection](https://i.ibb.co/fntdFq6/msql-Connection.png)
 
 ***The Code for Connection of SQLWorkspace to JavaIDE***
 
-![SQLConnectionCode](SQLCnnctCode.png)
+![SQLConnectionCode](https://i.ibb.co/XYcrBFr/SQLCnnct-Code.png)

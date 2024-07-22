@@ -84,7 +84,7 @@ We will propagate ***unhandeled checked exception*** by using `throws` keyword.
 
 ## All the ***Throwable classes***-
 
-![throwable class hierarchy](hierarchyEXCN.png)
+![throwable class hierarchy](https://i.ibb.co/XLmg5Fz/hierarchy-EXCN.png)
 
 All in the boxes are classes and Throwable is the super class for all the other classes. 
 * All exceptions except the `runtime exception` are **Checked Exceptions**.
