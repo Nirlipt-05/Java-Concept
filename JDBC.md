@@ -187,9 +187,9 @@ The column should be the following:
 
 ```
 create table employees(
-    -> id INT PRIMARY KEY
-    -> name VARCHAR(255)
-    -> job_title VARCHAR(255)
+    -> id INT PRIMARY KEY,
+    -> name VARCHAR(255),
+    -> job_title VARCHAR(255),
     -> salary DOUBLE
     -> );
 ```
@@ -238,10 +238,10 @@ public class Main
 	public static void main(String[] args) throws ClassNotFoundException 
 	{
 		//For connection we need url, password, username;
-		String url="jdbc:mysql://localhost:3306/sys";
+		String url="jdbc:mysql://localhost:3306/mydatabase";
 		String username="root";
 		String pw= "root";
-		String query= "Select * from person";
+		String query= "Select * from employees";
 		//we need to load the driver
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -260,12 +260,17 @@ public class Main
 			ResultSet rs= stmt.executeQuery(query);//query given
 			while(rs.next())//means until we have data in rs it will return true and the loop will be kept running
 			{
-				int id= rs.getInt("id");//here field name is passes of mySQL
-				String name= rs.getString("name");//here field name is passes of mySQL
+                //here field name is passes of mySQL
+				int id= rs.getInt("id");
+				String name= rs.getString("name");
+                String job_title= rs.getString("job_title");
+                Double salary= rs.getDouble("salary");
 				System.out.println();
 				System.out.println("===================");
 				System.out.println("ID: "+id);
 				System.out.println("Name: "+name);
+                System.out.println("Job Role: "+job_title);
+                System.out.println("Salary: "+salary);
 			}// here the data is retrived.
 			//here we have closed all the opened connection
 			rs.close();
