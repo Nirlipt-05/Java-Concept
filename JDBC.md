@@ -153,3 +153,59 @@ Hence the **SQLException** class is responsible to handle the exception and erro
 ***The Code for Connection of SQLWorkspace to JavaIDE***
 
 ![SQLConnectionCode](https://i.ibb.co/XYcrBFr/SQLCnnct-Code.png)
+
+## First JDBC Program-
+
+Steps to do in **MySQL Command line Guide** to create a database=
+
+1. Open **MySQL Command line Guide** and enter your mySQL password.
+
+2. to check the existng database. 
+
+>`show databases;`
+
+3. To create and use the a new database
+
+> `create database --databaseName--;`
+
+> `use --databaseName--;`
+
+4. Now to create a table  in the above database.
+
+> `create table --tableName--;`
+
+Suppose till now we have created a *database*, name : ***mydatabase***
+In "mydatabase" we have created a *table* as: ***employees***
+
+5. now we will be defining the column.
+
+The column should be the following:
+* id of "int" type.
+* name of "VARCHAR(255)" type.
+* job_title of "VARCHAR(255)" type.
+* salary of "double" type.
+
+```
+create table employees(
+    -> id INT PRIMARY KEY
+    -> name VARCHAR(255)
+    -> job_title VARCHAR(255)
+    -> salary DOUBLE
+    -> );
+```
+
+6. Then we need to `insert` into **employees**.
+
+````
+insert into employeees(id, name, job_title, salary) values(
+    ->1, 'Nirlipt', 'Java Developer', 70000.0);
+
+insert into employeees(id, name, job_title, salary) values(
+    ->2, 'Sagar', 'MERN stack Developer', 65000.0);
+````
+
+7. Now if we want to check the table created then
+`select * from employees;`
+
+Now as the database is ready then we need to connect it with java using ***JDBC***.
+

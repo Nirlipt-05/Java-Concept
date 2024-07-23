@@ -226,6 +226,9 @@ So,
     in line (i) we basically have two exceptions i.e. in an array of 5 elements we are trying to access 6th element, hence it is ArrayIndexOutOfBoundsException & we again are having ArithmeticException.
     To handel both the exceptions we are having multiple catch block in line (ii), where we are merging both the catch blocks into a single block by using `or(|)`, so that if we encounter any of the 2 exceptions then we can create an instance of that exception.
 
+**NOTE=**
+***There is a convention that while we are giving `try` and multipe `catch` block, then we need to write in a order such that we are first writting a child class exception catch block and followed by immidiate parent class exception, followed by the preceeding parent exception class, if required. This is not mandatory but we need to follow it because when we previously will write the parent exception class then it will handel the exception and the control flow will not get transfered to subsequent child class. Thus, writing the child exception class in the next catch block is of no use***
+
 #### Nested Try-Catch Block-
 
 Here we basically have a try-catch block within another try-catch block.
@@ -258,6 +261,7 @@ public class ExceptionhandelingDemo
 ***If we have try and catch block then any of the two will get executed, if the try block will execute then the catch block will not and vice-versa.***
 
 ***A Catch block can be later followed by a finally block but mandatorily be preceded by a try block.***
+
 
 ### `finally` keyword-
 
@@ -317,3 +321,52 @@ Main Close
 
 ### `throw`&`throws` block-
 
+When we want to throw an normal statement as an exception. Then we use `throw` statement.
+e.g. if we want to create a program that will take the useer input as age and then check if the entered age is eligible to vote or not. If the person age is greater than 18 then eligible else not.
+
+````
+import java.util.Scanner;
+
+public class VoteCheck
+{
+    public static void main(String[]args)
+    {
+        Scanner sc= new Scanner(System.in);
+        int age= sc.nextInt();
+        if(age<18)
+        {
+            throw new RuntimeException("You are unable to vote!!");
+        }
+        else
+        {
+            System.out.println("Eligible");
+        }
+    }
+}
+````
+
+#### `throws` keyword-
+
+using `throws` keyword we just give a precautionary that the error might come in a certain block.
+
+````
+import java.util.Scanner
+
+public class ExceptionDemo
+{
+    public static void main(String[]args)
+    {
+        Scanner sc= new Scanner(System.in);
+        int a=sc.nextInt();
+        int b= sc.nextInt();
+        divisiondemo(a,b);
+    }
+    public static void divisiondemo(int dividend, int divisor) throws ArithmeticException--------(i)
+    {
+        System.out.println("the result is: "+dividend/divisor);
+    }
+}
+````
+
+So, as we know that the user might give divisor input as 0.
+Hence, we already are taking precaution where in we are throwing the possible exception i.e. line (i), already.
