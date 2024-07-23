@@ -209,3 +209,74 @@ insert into employeees(id, name, job_title, salary) values(
 
 Now as the database is ready then we need to connect it with java using ***JDBC***.
 
+### Important Points to remember-
+1. `Class.forName("com.mysql.jdbc.Driver");`-----> Loads *Driver*
+2. `Connection con= DriverManager.getConnection(url, username, pw);`----->Establish *Connection*
+3. `Statement stmt= con.createStatement();`---->*Statement* Created
+4. `ResultSet rs= stmt.executeQuery(query);`----> Executed *SQL query*
+
+* ***DriverManager class*** has a method-----> *getConnection(url, username, password);* this method will connect with the database and has 3 arguments.
+Then this method needs to be in a instance of connection type. Hence, we write;
+`Connection con= DriverManager.getConnection(url, username, pw);`.
+
+* ***Connection class*** has a non-static method-----> *createStatement();* this will take no argument.The method is used to create Statement for us & will return the result of ***Statement type***.
+Hence, we write;
+`Statement stmt= con.createStatement();`.
+
+* ***Statement class*** has a non-static method---->*executeQuery(---write the query--);* this will have SQL query od string type as argument. This method is used to execute the query.
+It will return the result of ***ResultSet type***.
+Hence we write,
+`ResultSet rs= stmt.executeQuery(query);`
+
+#### first java program to retrieve data from an existing database;
+```
+package video1.pack1;
+/ we will be learning how to fetch the data from the existing database./
+import java.sql.*;
+public class Main 
+{
+	public static void main(String[] args) throws ClassNotFoundException 
+	{
+		//For connection we need url, password, username;
+		String url="jdbc:mysql://localhost:3306/sys";
+		String username="root";
+		String pw= "root";
+		String query= "Select * from person";
+		//we need to load the driver
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("Drivers Loaded successfully");
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		//now we need to connect
+		try
+		{
+			Connection con= DriverManager.getConnection(url, username, pw);// here connection created
+			System.out.println("Connection Established Successfully!!!");
+			Statement stmt = con.createStatement();//Statement is created
+			ResultSet rs= stmt.executeQuery(query);//query given
+			while(rs.next())//means until we have data in rs it will return true and the loop will be kept running
+			{
+				int id= rs.getInt("id");//here field name is passes of mySQL
+				String name= rs.getString("name");//here field name is passes of mySQL
+				System.out.println();
+				System.out.println("===================");
+				System.out.println("ID: "+id);
+				System.out.println("Name: "+name);
+			}// here the data is retrived.
+			//here we have closed all the opened connection
+			rs.close();
+			stmt.close();
+			con.close();
+			System.out.println("Connection Closed Successfully");
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+}
+```
