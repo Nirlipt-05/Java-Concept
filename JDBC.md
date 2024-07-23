@@ -219,17 +219,19 @@ Now as the database is ready then we need to connect it with java using ***JDBC*
 Then this method needs to be in a instance of connection type. Hence, we write;
 `Connection con= DriverManager.getConnection(url, username, pw);`.
 
-* ***Connection class*** has a non-static method-----> *createStatement();* this will take no argument.The method is used to create Statement for us & will return the result of ***Statement type***.
+* ***Connection interface*** has a non-static method-----> *createStatement();* this will take no argument.The method is used to create Statement for us & will return the result of ***Statement type***.
 Hence, we write;
 `Statement stmt= con.createStatement();`.
 
-* ***Statement class*** has a non-static method---->*executeQuery(---write the query--);* this will have SQL query od string type as argument. This method is used to execute the query.
+* ***Statement interface*** has a non-static method---->*executeQuery(---write the query--);* this will have SQL query od string type as argument. This method is used to execute the query.
 It will return the result of ***ResultSet type***.
 Hence we write,
 `ResultSet rs= stmt.executeQuery(query);`
 
 #### first java program to retrieve data from an existing database;
+
 ```
+
 package video1.pack1;
 / we will be learning how to fetch the data from the existing database./
 import java.sql.*;
@@ -284,4 +286,79 @@ public class Main
 		}
 	}
 }
+
 ```
+
+#### java program to insert a data to the database-
+
+* here as we are inserting data into database hence we are using a method called `executeUpdate(--query--);` present in ***Statement Interface*** and we need to pass the **query** in the form of string as an **argument**. It will return the ***int type*** data i.e. it will return the numbers of rows affected by our query.
+
+```
+
+int i=stmt.executeUpdate(query);
+
+```
+***Note:-***
+* if we need to execute a certain query and **fetch** information from the database, then we use `executeQuery();`.
+* But when we want to **insert** any data into the database there we use `executeUpdate();`.
+
+***Programs=***
+
+````
+package video1.pack1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class insertData 
+{
+	public static void main(String[] args) throws ClassNotFoundException 
+	{
+		//For connection we need url, password, username;
+		String url="jdbc:mysql://localhost:3306/mydatabase";
+		String username="root";
+		String pw= "root";
+		String query= "insert into employees(id, name, job_title,salary) values (4, 'Manyata', 'Python Developer', 60000.0);";
+		//we need to load the driver
+		try 
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("Drivers Loaded successfully");
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		//now we need to connect
+		try
+		{
+			Connection con= DriverManager.getConnection(url, username, pw);// here connection created
+			System.out.println("Connection Established Successfully!!!");
+			Statement stmt = con.createStatement();//Statement is created
+			int rowsaffected =stmt.executeUpdate(query);
+			
+			if(rowsaffected>0)
+				System.out.println("Insert Successfull "+ rowsaffected + " row(s) affected");
+			else
+				System.out.println("Insertion failed!!");
+			stmt.close();
+			con.close();
+			System.out.println("Connection Closed Successfully");
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+}
+}
+````
+
+**Output:**
+>    Drivers Loaded successfully
+>    Connection Established Successfully!!!
+>    Insert Successfull 1 row(s) affected
+>    Connection Closed Successfully
+
+##### What is Prepaid Statement? How and where to use it.
