@@ -16,6 +16,7 @@ JDBC belongs to JSE. JDBC present inside JDK, by installing JDK we also get JDBC
 ## What is JDBC?
 
 JDBC is an API that defines how a client-
+
 1. connects to the database.
 2. sends SQL queries and statements.
 3. retrive and manipulate the result.
@@ -39,7 +40,7 @@ JDBC provides platform independence, security and ease of use for Java developer
 
 * **Database Server**= It is a software program that provides sdatabase management functionality within a networked computing environment.
 
-## Why do we need JDBC? 
+## Why do we need JDBC?
 
 1. ***Interoperability :*** JDBC provides an universal API for accessing and interacting with any SQL complaint database, regardless of vendors.
 
@@ -50,6 +51,7 @@ JDBC provides platform independence, security and ease of use for Java developer
 ## There are four types of JDBC drivers-
 
 ![JDBC Drives type](https://i.ibb.co/4gnXTN7/JDBCDrivers.png)
+
 1. JDBC- ODBC Bridge Driver.
 2. Native-API Partly Java Driver.
 3. Network Protocol Pure Java Driver.
@@ -57,7 +59,7 @@ JDBC provides platform independence, security and ease of use for Java developer
 
 1. JDBC-ODBC Bridge Driver, it is the oldest driver that is being created by using C language, It is the least efficient driver and is not being used now as it is having many issues like performance issues, scalability issues, etc.
 
-2. Native API Partly Java Driver is Vendor specific and it directly doesnot convert the native api call to database specific call. This 
+2. Native API Partly Java Driver is Vendor specific and it directly doesnot convert the native api call to database specific call. This
 deiver required a library specific to the database being access. Here the API is provided directly by the vendor.
 
 3. In Network protocol driver, it creates a middlelayer that is between the client and the database,hence it is quite slow than thin driver. But as the middle layer is being created, then is consumes some resources thus making it less efficient than thin driver.
@@ -83,7 +85,7 @@ These components works together to provide a  powerful and flexible API for work
 
 ### Driver Manager class-
 
-* This is the class present `java.sql` package. 
+* This is the class present `java.sql` package.
 * This class contains the Database drivers discussed above and   through this Drivers we are able to perform our JDBC tasks.
 * It establish connections to the database using the appropriate driver and handels the process of loading the driver class.
 * It provides a standardize method for handeling multiple database connections and selecting the appropriate driver.
@@ -104,6 +106,7 @@ These components works together to provide a  powerful and flexible API for work
 ![Statement Interface](https://i.ibb.co/RcYyfDC/Statement-Interface.png)
 
 There are 3 types of statement interfaces i.e.-
+
 1. **Statement**= executes simple SQL queries without parameters and retrieve data.
 2. **PreparedStatement**= executes precompiled SQL queries with parameter.More efficient and safe than Statement.
 3. **CallableStatement**= executes database stored procedures, here in database stored procedure has precompiled statements.
@@ -115,11 +118,13 @@ There are 3 types of statement interfaces i.e.-
 It has the above 3 functionalities.
 It helps in retreiving the data that we got through the Statement Interface and stores it.
 By the help of this we can-
+
 1. Retrieve the data.
 2. Manipulate the data.
-3.  Navigate the data.
+3. Navigate the data.
 
 ## Summary/Work Flow of the JDBC components-
+>
 > ![Working of JDBC Component](https://i.ibb.co/xLK76Dx/Working.png)
 
 In *DriverManager Class* we have a method call `.getConnecion()` to establish a connection between Database, here the connection will be stored in an instance of *connection interface*.
@@ -160,7 +165,7 @@ Steps to do in **MySQL Command line Guide** to create a database=
 
 1. Open **MySQL Command line Guide** and enter your mySQL password.
 
-2. to check the existng database. 
+2. to check the existng database.
 
 >`show databases;`
 
@@ -180,6 +185,7 @@ In "mydatabase" we have created a *table* as: ***employees***
 5. now we will be defining the column.
 
 The column should be the following:
+
 * id of "int" type.
 * name of "VARCHAR(255)" type.
 * job_title of "VARCHAR(255)" type.
@@ -207,9 +213,16 @@ insert into employeees(id, name, job_title, salary) values(
 7. Now if we want to check the table created then
 `select * from employees;`
 
+8. To know the types of columns present in our employees table=
+`describe employees;`. This will tell us the `field`, `type`, `null`, `key`, `Default` and `Extra`.
+
+9. To delete any employee details from the table we need to write the command `delete from <--table name--> where <--parameter-->`.
+Ex= `Delete from employees where id = 4 ;`
+
 Now as the database is ready then we need to connect it with java using ***JDBC***.
 
 ### Important Points to remember-
+
 1. `Class.forName("com.mysql.jdbc.Driver");`-----> Loads *Driver*
 2. `Connection con= DriverManager.getConnection(url, username, pw);`----->Establish *Connection*
 3. `Statement stmt= con.createStatement();`---->*Statement* Created
@@ -228,7 +241,7 @@ It will return the result of ***ResultSet type***.
 Hence we write,
 `ResultSet rs= stmt.executeQuery(query);`
 
-#### first java program to retrieve data from an existing database;
+#### first java program to retrieve data from an existing database
 
 ```
 
@@ -237,54 +250,54 @@ package video1.pack1;
 import java.sql.*;
 public class Main 
 {
-	public static void main(String[] args) throws ClassNotFoundException 
-	{
-		//For connection we need url, password, username;
-		String url="jdbc:mysql://localhost:3306/mydatabase";
-		String username="root";
-		String pw= "root";
-		String query= "Select * from employees";
-		//we need to load the driver
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("Drivers Loaded successfully");
-		}
-		catch (ClassNotFoundException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		//now we need to connect
-		try
-		{
-			Connection con= DriverManager.getConnection(url, username, pw);// here connection created
-			System.out.println("Connection Established Successfully!!!");
-			Statement stmt = con.createStatement();//Statement is created
-			ResultSet rs= stmt.executeQuery(query);//query given
-			while(rs.next())//means until we have data in rs it will return true and the loop will be kept running
-			{
+ public static void main(String[] args) throws ClassNotFoundException 
+ {
+  //For connection we need url, password, username;
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String query= "Select * from employees";
+  //we need to load the driver
+  try {
+   Class.forName("com.mysql.jdbc.Driver");
+   System.out.println("Drivers Loaded successfully");
+  }
+  catch (ClassNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  }
+  //now we need to connect
+  try
+  {
+   Connection con= DriverManager.getConnection(url, username, pw);// here connection created
+   System.out.println("Connection Established Successfully!!!");
+   Statement stmt = con.createStatement();//Statement is created
+   ResultSet rs= stmt.executeQuery(query);//query given
+   while(rs.next())//means until we have data in rs it will return true and the loop will be kept running
+   {
                 //here field name is passes of mySQL
-				int id= rs.getInt("id");
-				String name= rs.getString("name");
+    int id= rs.getInt("id");
+    String name= rs.getString("name");
                 String job_title= rs.getString("job_title");
                 Double salary= rs.getDouble("salary");
-				System.out.println();
-				System.out.println("===================");
-				System.out.println("ID: "+id);
-				System.out.println("Name: "+name);
+    System.out.println();
+    System.out.println("===================");
+    System.out.println("ID: "+id);
+    System.out.println("Name: "+name);
                 System.out.println("Job Role: "+job_title);
                 System.out.println("Salary: "+salary);
-			}// here the data is retrived.
-			//here we have closed all the opened connection
-			rs.close();
-			stmt.close();
-			con.close();
-			System.out.println("Connection Closed Successfully");
-		}
-		catch (SQLException e)
-		{
-			System.out.println(e.getMessage());
-		}
-	}
+   }// here the data is retrived.
+   //here we have closed all the opened connection
+   rs.close();
+   stmt.close();
+   con.close();
+   System.out.println("Connection Closed Successfully");
+  }
+  catch (SQLException e)
+  {
+   System.out.println(e.getMessage());
+  }
+ }
 }
 
 ```
@@ -298,9 +311,11 @@ public class Main
 int i=stmt.executeUpdate(query);
 
 ```
+
 ***Note:-***
+
 * if we need to execute a certain query and **fetch** information from the database, then we use `executeQuery();`.
-* But when we want to **insert** any data into the database there we use `executeUpdate();`.
+* But when we want to **insert, delete or update** any data into the database there we use `executeUpdate();`.
 
 ***Programs=***
 
@@ -314,54 +329,192 @@ import java.sql.Statement;
 
 public class insertData 
 {
-	public static void main(String[] args) throws ClassNotFoundException 
-	{
-		//For connection we need url, password, username;
-		String url="jdbc:mysql://localhost:3306/mydatabase";
-		String username="root";
-		String pw= "root";
-		String query= "insert into employees(id, name, job_title,salary) values (4, 'Manyata', 'Python Developer', 60000.0);";
-		//we need to load the driver
-		try 
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("Drivers Loaded successfully");
-		}
-		catch (ClassNotFoundException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		//now we need to connect
-		try
-		{
-			Connection con= DriverManager.getConnection(url, username, pw);// here connection created
-			System.out.println("Connection Established Successfully!!!");
-			Statement stmt = con.createStatement();//Statement is created
-			int rowsaffected =stmt.executeUpdate(query);
-			
-			if(rowsaffected>0)
-				System.out.println("Insert Successfull "+ rowsaffected + " row(s) affected");
-			else
-				System.out.println("Insertion failed!!");
-			stmt.close();
-			con.close();
-			System.out.println("Connection Closed Successfully");
-		}
-		catch (SQLException e)
-		{
-			System.out.println(e.getMessage());
-		}
+ public static void main(String[] args) throws ClassNotFoundException 
+ {
+  //For connection we need url, password, username;
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String query= "insert into employees(id, name, job_title,salary) values (4, 'Manyata', 'Python Developer', 60000.0);";
+  //we need to load the driver
+  try 
+  {
+   Class.forName("com.mysql.jdbc.Driver");
+   System.out.println("Drivers Loaded successfully");
+  }
+  catch (ClassNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  }
+  //now we need to connect
+  try
+  {
+   Connection con= DriverManager.getConnection(url, username, pw);// here connection created
+   System.out.println("Connection Established Successfully!!!");
+   Statement stmt = con.createStatement();//Statement is created
+   int rowsaffected =stmt.executeUpdate(query);
+   
+   if(rowsaffected>0)
+    System.out.println("Insert Successfull "+ rowsaffected + " row(s) affected");
+   else
+    System.out.println("Insertion failed!!");
+   stmt.close();
+   con.close();
+   System.out.println("Connection Closed Successfully");
+  }
+  catch (SQLException e)
+  {
+   System.out.println(e.getMessage());
+  }
 }
 }
 ````
 
 **Output:**
->    Drivers Loaded successfully
+> Drivers Loaded successfully
 
->    Connection Established Successfully!!!
+> Connection Established Successfully!!!
 
->    Insert Successfull 1 row(s) affected
+> Insert Successfull 1 row(s) affected
 
->    Connection Closed Successfully
+> Connection Closed Successfully
 
 ##### What is Prepaid Statement? How and where to use it.(Interview Question)
+
+#### Java Program to delete a row from the database
+
+```
+package video1.pack1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Deletion_inDB 
+{
+ public static void main(String[] args) throws ClassNotFoundException 
+ {
+  //For connection we need url, password, username;
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String query= "Delete from employees where id = 4";
+  //here the query is a static query.
+  //load of the driver is not necessary
+  /*try 
+  {
+   Class.forName("com.mysql.jdbc.Driver");
+   System.out.println("Drivers Loaded successfully");
+  }
+  catch (ClassNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  }*/
+  //now we need to connect
+  try
+  {
+   Connection con= DriverManager.getConnection(url, username, pw);// here connection created
+   System.out.println("Connection Established Successfully!!!");
+   Statement stmt = con.createStatement();//Statement is created
+   int rowsaffected =stmt.executeUpdate(query);//executeUpdate is used when we want to insert, delete or update the data.
+   //int will tell us how many rows are affected.
+   if(rowsaffected>0)
+    System.out.println("Deletion Successfull "+ rowsaffected + " row(s) affected");
+   else
+    System.out.println("Deletion failed!!");
+   stmt.close();
+   con.close();
+   System.out.println("Connection Closed Successfully");
+  }
+  catch (SQLException e)
+  {
+   System.out.println(e.getMessage());
+  }
+}
+}
+```
+
+**OUTPUT-**
+>Connection Established Successfully!!!
+>Deletion Successfull 1 row(s) affected
+>Connection Closed Successfully
+
+Here in this program wee have deleted the row by using the query where in we are deleting the row of the table where id= 4 by passing the query i.e.
+`delete from employees where id = 4;`
+
+#### Java program to update the data in the database
+
+**mySQL syntax for updation-**
+
+````
+
+update your_table_name
+set column1 = newvalue_1, column2 = newvalue_2
+where some_column = some_value;
+
+````
+
+**ex-**
+
+```
+update employees
+set job_title = 'Full Stack Developer', salary= '87000.0' 
+where id= 2;
+```
+
+**Program-**
+
+````
+
+package video1.pack1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Updation 
+{
+ public static void main(String[] args) throws ClassNotFoundException 
+ {
+  //For connection we need url, password, username;
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String query= "update employees\r\n"
+    + "set job_title = 'Full Stack Developer', salary= '87000.0' \r\n"
+    + "where id= 2;";
+  //here the query is a static query.
+  //now we need to connect
+  try
+  {
+   Connection con= DriverManager.getConnection(url, username, pw);// here connection created
+   System.out.println("Connection Established Successfully!!!");
+   Statement stmt = con.createStatement();//Statement is created
+   int rowsaffected =stmt.executeUpdate(query);//executeUpdate is used when we want to insert, delete or update the data.
+   //int will tell us how many rows are affected.
+   if(rowsaffected>0)
+    System.out.println("Updation Successfull "+ rowsaffected + " row(s) affected");
+   else
+    System.out.println("Updation failed!!");
+   stmt.close();
+   con.close();
+   System.out.println("Connection Closed Successfully");
+  }
+  catch (SQLException e)
+  {
+   System.out.println(e.getMessage());
+  }
+  }
+}
+
+````
+
+**OUTPUT-**
+
+````
+Connection Established Successfully!!!
+Updation Successfull 1 row(s) affected
+Connection Closed Successfully
+````
