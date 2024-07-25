@@ -519,3 +519,245 @@ Updation Successfull 1 row(s) affected
 Connection Closed Successfully
 ````
 
+### Prepared Statements
+
+* ***Prepared Statements*** are features in database programming that are commonly used in JDBC and other data access libraries.
+
+* They are used to execute SQL queries with **placeholders as parameters**. When we write a query we just need to insert a placeholder and leave it's value, the value is entered when we execute.
+`Select * from employees where name = ?;`
+the `?` is called the *placeholder*, when we will execute the query then at that time the *value* will be given.
+
+* `PreparedStatements` are ***precompiled*** statements means once it is compiled then no need to compile it again and again and just only the value is inserted.
+
+* These placeholders are *filled with specific values* when the query is executed.
+
+* These offers various **advantages**-
+  1. Protection against SQL Injection.
+  2. Improved performance.
+  3. Code Readability and maintainability.
+  4. Automatic DataType Handeling means it will ensure the java datatypes and database datatypes.
+  5. Portability means it will work for all SQL vendors.
+
+#### Comparison between Statement Interface and PreparedStatement Interface
+
+In JDBC, `Statement` and `PreparedStatement` are two interfaces used for executing SQL queries. Each has its specific use cases and benefits.
+
+1. ***Statement Interface:***
+
+* It is used to execute the simple SQL queries that are **not parameterized**.
+* Because `Statement` executes SQL queries, it is **more vulnerable to SQL injection attacks** if user inputs are included in the queries without proper escaping.
+* SQL queries are compiled each time they are executed, this makes it **less efficient** for repeated execution of similar queries.
+* `Statement` does not support parameterized queries, meaning you **cannot use placeholders for dynamic values**.
+
+* ````
+  Statement stmt = connection.createStatement();
+  ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+  ````
+
+2. ***PreparedStatement Interface:***
+
+* `PreparedStatement` is used for executing SQL queries with **parameterized inputs**.
+* By using parameterized queries, `PreparedStatement` helps **prevent SQL injection attacks** since parameters are bound to placeholders in a safe manner.
+* SQL queries are **precompiled and optimized** by the database when the `PreparedStatement` is created. This improves performance, especially for repeated executions with different parameters.
+* `PreparedStatement` allows you to **set parameters dynamically** using methods like `setInt()`, `setString()`, etc. This makes it **flexible for executing queries with variable inputs.**
+
+  So, from above we could **conclude** that `Statement` interface is best suited for *simple and static queries*. But, it is *prone to SQL Injections* and *less efficient* for repeated queries. Whereas, `PreparedStatement` iterface is ideal for *parameters*, offering *protecion against SQL injection* and *improved performance* due to precompilation.
+
+* ```
+  PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
+  pstmt.setInt(1, userId);
+  ResultSet rs = pstmt.executeQuery();
+  ```
+
+**In most of the cases `PreparedStatement` is most preferred due to it's Safety and efficiency advantage.**
+
+#### Prepared statement examples
+
+##### 1. Selection operation by using the PreparedStatement
+
+```
+import java.sql.*;
+public class PreparedStatementsDemo 
+{
+ public static void main(String[] args) throws ClassNotFoundException
+ {
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String query="Select * from employees where name = ? and job_title=?";
+  try
+  {
+   Class.forName("com.mysql.cj.jdbc.Driver");
+   System.out.println("Drivers loaded Successfully!!");
+  }
+  catch(ClassNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  }
+  
+  
+  try
+  {
+   Connection con= DriverManager.getConnection(url, username, pw);
+   System.out.println("Connection Established Successfully!!!");
+   //Statement stmnt= con.createStatement();//when we use Statement Interface then the Connection interface's createStatement() is used.
+   
+   PreparedStatement ps= con.prepareStatement(query);
+   //when we use PreparedStatement then the Connection Interface's prepareStatement() is used. 
+   ps.setString(1,"Sagar");
+   ps.setString(2,"Full Stack Developer");
+   // setString() will set the values for the placeholder.
+   ResultSet rs= ps.executeQuery();
+   
+   while(rs.next())
+   {
+    int id= rs.getInt("id");
+    String name= rs.getString("name");
+    String job_title= rs.getString("job_title");
+    double salary = rs.getDouble("salary");
+    System.out.println("ID: "+id +", Name: "+name + ", Job title: "+job_title+", salary: "+salary);
+   }
+   
+   rs.close();
+   ps.close();
+   con.close();
+   System.out.println();
+   System.out.println("Connection closed Successfully!!!!!");
+  }
+  catch (SQLException e)
+  {
+   System.out.println(e.getMessage());
+  }
+ }
+}
+```
+
+##### 2. Insertion operation using the PreparedStatement
+
+```
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class InsertionPS 
+{
+ public static void main(String[] args) throws ClassNotFoundException
+ {
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String query="insert into employees(id, name, job_title,salary) values(?,?,?,?)";
+  try
+  {
+   Class.forName("com.mysql.cj.jdbc.Driver");
+   System.out.println("Drivers loaded Successfully!!");
+  }
+  catch(ClassNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  }
+  try
+  {
+   Connection con= DriverManager.getConnection(url, username, pw);
+   System.out.println("Connection Established Successfully!!!");
+     
+   PreparedStatement ps= con.prepareStatement(query);
+   //when we use PreparedStatement then the Connection Interface's prepareStatement() is used. 
+   ps.setInt(1,4);
+   ps.setString(2,"Manyata");
+   ps.setString(3, "DevOPS Engineer");
+   ps.setDouble(4, 58000.0);
+   // set___() will set the values for the placeholder.
+   int rowsaffected= ps.executeUpdate();
+   
+   if (rowsaffected>0)
+    System.out.println("Data inserted Successfully!!");
+   else
+    System.out.println("Insertion failed.");
+   
+   ps.close();
+   con.close();
+   System.out.println();
+   System.out.println("Connection closed Successfully!!!!!");
+  }
+  catch (SQLException e)
+  {
+   System.out.println(e.getMessage());
+  }
+ }
+}
+```
+
+##### 3. By taking user input perform Insertion operation.
+
+```
+import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class UserInput 
+{
+ public static void main(String[] args) throws ClassNotFoundException
+ {
+  
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String query="insert into employees(id, name, job_title,salary) values(?,?,?,?)";
+  try
+  {
+   Class.forName("com.mysql.cj.jdbc.Driver");
+   System.out.println("Drivers loaded Successfully!!");
+  }
+  catch(ClassNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  }
+  
+  
+  try
+  {
+   Scanner sc= new Scanner(System.in);
+   Connection con= DriverManager.getConnection(url, username, pw);
+   System.out.println("Connection Established Successfully!!!");
+   
+   System.out.println("Enter the new Employee's details: ");
+   int id= sc.nextInt();
+   sc.nextLine();
+   String name=sc.nextLine();
+   String job_title= sc.nextLine();
+   double salary= sc.nextDouble();
+   
+   
+   PreparedStatement ps= con.prepareStatement(query);
+   //when we use PreparedStatement then the Connection Interface's prepareStatement() is used. 
+   ps.setInt(1,id);
+   ps.setString(2,name);
+   ps.setString(3, job_title);
+   ps.setDouble(4, salary);
+   // set___() will set the values for the placeholder.
+   int rowsaffected= ps.executeUpdate();
+   
+   if (rowsaffected>0)
+    System.out.println("Data inserted Successfully!!");
+   else
+    System.out.println("Insertion failed.");
+   
+   sc.close();
+   ps.close();
+   con.close();
+   System.out.println();
+   System.out.println("Connection closed Successfully!!!!!");
+  }
+  catch (SQLException e)
+  {
+   System.out.println(e.getMessage());
+  }
+ }
+}
+
+```
