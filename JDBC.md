@@ -690,7 +690,7 @@ public class InsertionPS
 }
 ```
 
-##### 3. By taking user input perform Insertion operation.
+##### 3. By taking user input perform Insertion operation
 
 ```
 import java.util.Scanner;
@@ -761,3 +761,174 @@ public class UserInput
 }
 
 ```
+
+## Image handeling in JDBC
+
+We can also perform CRUD operation using image in JDBC.
+
+First of all to create an Image data there should be a table to support the image data. The table should have the schema needed to insert the image into.
+
+now lets make a table to support the image in mySQL.
+
+```
+ Create table image_table(
+    -> image_id INT AUTO_INCREMENT PRIMARY KEY,
+    -> image_data LONGBLOB NOT NULL,
+    -> upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -> );
+```
+
+Now after the table is created we can go to the Java program and write the following code in our IDE so as to perform operations with image in java.
+
+Now the code to write the Image data to the database
+
+```
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class ImageJDBC 
+{
+ public static void main(String[] args) throws ClassNotFoundException
+ {
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String img_path="D:\\WallImage\\jai-shri-ram-hindu-3840x2160-14453.jpg";// we need to copy the image path from the location where it is been stored.
+  String query= "INSERT into image_table(image_data) values (?)";
+  try
+  {
+   Class.forName("com.mysql.cj.jdbc.Driver");
+   System.out.println("Drivers loaded Successfully!!");
+  }
+  catch(ClassNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  }
+  
+  
+  try
+  {
+   Connection con= DriverManager.getConnection(url, username, pw);
+   System.out.println("Connection Established Successfully!!!");
+   FileInputStream fis= new FileInputStream(img_path);// we made a FileInputStream class to convert the image to binary or byte format.
+   byte[]imgData = new byte[fis.available()];//available() is a method of FileInputStream class that helps us to return the size of the array.
+   fis.read(imgData);//will read and store in imgData array.
+   
+   //to insert the data we will be using preparedStatement
+   
+   PreparedStatement ps = con.prepareStatement(query);
+   ps.setBytes(1, imgData);
+   
+   int affectedRows= ps.executeUpdate();
+   if(affectedRows>0)
+    System.out.println("Image inserted Successfully!!");
+   else
+    System.out.println("Image is not inserted!");
+   
+  }
+  //FileNotFound & IOException are used in the catch block for FileInputStream class.
+  catch (SQLException | FileNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  } catch (IOException e) {
+   // TODO Auto-generated catch block
+   e.printStackTrace();
+  }
+ }
+}
+
+```
+
+So, now the Image from the computer location will be stored into the database.
+
+As now the image is been stored in the database. So next we will, extract the image form the database and put it in the folder.
+
+```
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class ImageJDBC2 
+{
+ public static void main(String[] args) throws ClassNotFoundException
+ {
+  String url="jdbc:mysql://localhost:3306/mydatabase";
+  String username="root";
+  String pw= "root";
+  String folder_path="D:\\WallImage\\";// we image will be stored in this folder location.
+  String query= "SELECT image_data from image_table where image_id = (?)";// here the data will be retrieved.
+  try
+  {
+   Class.forName("com.mysql.cj.jdbc.Driver");
+   System.out.println("Drivers loaded Successfully!!");
+  }
+  catch(ClassNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  }
+  
+  
+  try
+  {
+   Connection con= DriverManager.getConnection(url, username, pw);
+   System.out.println("Connection Established Successfully!!!");
+   
+   PreparedStatement ps = con.prepareStatement(query);
+   ps.setInt(1, 1);
+   
+   //as we are retrieving the data hence we will use the ResultSet interface.
+   ResultSet rs= ps.executeQuery();
+   if(rs.next())
+   {
+    byte[] image_Data= rs.getBytes("image_data");
+    //our data is present in byte array so now we need to convert it into image type.
+    String image_path= folder_path+"extractedimg.jpg";
+    OutputStream os= new FileOutputStream(image_Data);
+    os.write(image_Data);
+   }
+   else
+    System.out.println("Image not Found");
+   
+  }
+  //FileNotFound & IOException are used in the catch block for FileInputStream class.
+  catch (SQLException | FileNotFoundException e)
+  {
+   System.out.println(e.getMessage());
+  } catch (IOException e) {
+   // TODO Auto-generated catch block
+   e.printStackTrace();
+  }
+ }
+}
+```
+By using this we can easily insert and retrieve the image from the database.
+
+## Transaction Handeling in JDBC
+
+### Data consistency
+
+let's say we have a banking system  and we have 2 account number `acc123` and `acc456`. For example `acc123` is having **rs.1000** and `acc456` is having **rs.2000**. Now, ***Transaction*** means some operation that will affect both the parties i.e. transfer of data or other things from one party to other or vice-verse.
+Now let's transfer **rs500** from `acc123` to `acc456`i.e. the amount is debited from `acc123` and credited to `acc456`. But the total balance in the database is still the same i.e. **rs3000** despite of the transfer.
+Hence, ***Data Consitency*** means the difference between the initial and final data should be zero after the transaction. We can also say that the *the state of the data is maintained so that no ambiguity or dataloss could occur or no data inconsistency.*
+
+So, **Transaction Handelling is a robust mechanisim that is used to avoid data inconsistency.**
+
+### How to perform Transaction Handelling
+
+#### Methods to perform Transaction Handelling
+
+1. **Commit**= After the transaction completed we commit changes. A transaction is committed after we ensure that the transaction is complete.
+
+2. **Rollback**= Rollback is performed when an error comes after the transaction is initated 
