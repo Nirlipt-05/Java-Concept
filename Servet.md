@@ -2,7 +2,12 @@
 
 ## Application-
 
-An application is a set of program written to perform a specific task.
+An application is a *set of program written to perform a specific task*.
+
+An application is a *computer program designed to carry out a specific task, typically to be used by end-users*.
+For example= Web browsers,word processors , games and utilities are all applications.
+
+The word "application" is used because *each program has a specific application for the user*.
 
 ### Types od Application-
 
@@ -22,6 +27,12 @@ A client-server application is a program that runs on the client-side while acce
 #### 3. Web Application=
 
 Web application is an application which is stored inside the server, can be accessed through the internet over the browser.
+
+Any application  that is stored on a remote server and delivered over the Internet through a browser interface.
+
+Web applications donot need to be downloaded since they are accessed through a network. Users can access a Web application through a web browser such as Google Chrome, Mozilla Firefox or Safari.
+
+For a webapp to operate, it needs a Web server and a database.Web servers manage the requests that come from a client.A database can be used to store any needed information.
 
 #### 4. Hybrid and Native application=
 
@@ -91,8 +102,8 @@ There are too many elements in the web.xml file. Here the illustration of some e
 * Root element of web.xml should be `<web-app>`. `<servlet>` element map a URL to a servlet using `<servlet-mapping>` element.
 * To map a URL to a servlet, you declare the servlet with the `<servlet>` element, then define a mapping from a URL path to a servlet declaration with the `<servlet-mapping>` element.
 * The `<servlet>` element declares the servlet class and a logical name used to refer to the servlet by other elements in the file.
-* You can declare multiple servlets using the same class but name for each servlet must be unique across the deployment descriptor. 
-* The `<servlet-mapping>` element specifies a URL pattern and the name of a declared servlet to use for requests whose URL matches the pattern. 
+* You can declare multiple servlets using the same class but name for each servlet must be unique across the deployment descriptor.
+* The `<servlet-mapping>` element specifies a URL pattern and the name of a declared servlet to use for requests whose URL matches the pattern.
 * The URL pattern can use an asterisk (*) at the beginning or end of the pattern to indicate zero or more of any character.
 * The standard does not support wildcards in the middle of a string, and does not allow multiple wildcards in one pattern.
 * The pattern matches the full path of the URL, starting with and including the forward slash (/) following the domain name. The URL path cannot start with a period (.).
@@ -104,7 +115,7 @@ There are too many elements in the web.xml file. Here the illustration of some e
 * A Servlet is a *server side component* which is used to build *dynamic web page*.
 * Servlet is an **API that provides many interfaces and classes including documentation**.
 * Servlet is an **interface that must be implemented for creating any Servlet**.
-* Servlet is a **class that extends the capabilities of the servers and responds to the incoming requests**. It can respond to any requests. 
+* Servlet is a **class that extends the capabilities of the servers and responds to the incoming requests**. It can respond to any requests.
 
 ## Lifecycle of Servlet
 
@@ -132,6 +143,7 @@ A servlet life cycle can be defined as **the entire process from its creation ti
 * The init method is used to initialize the servlet.
 * It is method in `java.servlet.Servlet` interface.
 * The syntax of `init()` is:
+
 ```
 public void init(ServletConfig config) throws ServletException
 ```
@@ -141,6 +153,7 @@ public void init(ServletConfig config) throws ServletException
 * The web container calls the service method each time when request for servlet is received.
 * The `service()` will then call the `doGet()` or `doPost()` based on the type of HTTP request.
 * The syntax of the `service()` of the Servlet interface is:
+
 ```
 public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException
 ```
@@ -150,6 +163,7 @@ public void service(ServletRequest request, ServletResponse response) throws Ser
 * The web container calls the `destroy()` before removing the servlet instance from the service.
 * It gives the servlet an opportunity to cleann up any resource for example memory, thread, etc.
 * The syntax of the `destroy()` of the servlet interfaceis given below:
+
 ```
 public void destroy()
 ```
@@ -176,7 +190,7 @@ public void destroy()
 
 * The methods and their description:
 
-1. `public void init(ServletConfig config)`= 
+1. `public void init(ServletConfig config)`=
     initialize the servlet. It is the lifecycle method of servlet and invoked by the web container only once.
 2. `public void service(ServletRequest request, ServletResponse response)`=
     provides response for incoming request. It is invoked at each request by the web container.
@@ -195,7 +209,7 @@ public void destroy()
 * `GenericServlet` class can handel any type of request so it is **protocol independent**.
 * We can create a generic servlet by inheriting the `GeneicServlet` class and providing the implementation of the `service()`.
 
-### Disadvantages of the Generic servlet 
+### Disadvantages of the Generic servlet
 
 1. Working with Generic servlet is not that easy because we don't have convinent method such as `doGet()`, `doPost()`, `doHead()`, etc in Generic Servlet that we can use in *HTTPServlet*.
 2. In `HTTPServlet` we need to override partiular convenient methos for particular request, for example if you need to get the information then override `doGet()`, if we want to send information then override `doPost()`. However in Generic Servlet we only override `service()` for each type of request which is not convenient.
@@ -211,12 +225,92 @@ public void destroy()
 ### Methods of HTTPServlet class
 
 1. `protected void doGet(HttpServletRequest req, HttpServletResponse resp)`:
+
     * This mehtod is called by servlet service method to handel the HTTP GET request from client.
     * When overriding this method, read the request data, write the response headers, get the response's writer or output stream object and finally write the response data.
+
 2. `protected long getLastModified(HttpServleRequest req)` returns the time when `HttpServletRequest` was last modified since midninght Jan 1,1970 GMT.
+
 3. `protected void doHead(HttpServletRequest req, HttpServletResponse resp)`:
+
     * this mehtod is called by servlet `service()` to handel the HTTP HEAD request from the client.
     * The client sends a HEAD request when it wants to see only the headers of a response, such as Content-Type or Content-Length.
+
 4. `protected void doPost(HttpServletRequest req, HttpServletResponse resp)`:
+
     * This method is called by servlet `service()` to handel the `POST` request from the client.
-    * The `HTTP POST()` allows the client to send data of **unlimited length** to the web server a si
+    * The `HTTP POST()` allows the client to send data of **unlimited length** to the web server a single time and is useful when posting information to the server.
+    * This method is used when we are **transfering information from client to the server**.
+
+5. `protected void doPut(HttpServletRequest req, HttpServletResponse resp)`:
+
+    * This method is called by `service()` to handel the PUT request from client.
+    * this method **sends file to the server, this is similar to the FTP operations from client to server**.
+
+6. `protected void doDelete(HttpServletRequest req, HttpServletResponse resp)`:
+
+    * Called by servlet `service()` to *handle the DELETE request from client that allows a client to delete a document, webpage or information from the server*.
+
+7. `protected void doOptions(HttpServletRequest req, HttpServletResponse resp)`:
+
+    * Called by the `service()` to *allow a servlet to handel a OPTIONS request*.
+    * The OPTIONS request determines which HTTP methods the server supports and returns an appropiate header.
+
+8. `protected void doTrace(HttpServletRequest req, HttpServletResponse resp)`:
+
+    * This method is called by `service()` for **handling TRACE request**.
+    * used for **debugging purpose**.
+
+9. `protected void service(HttpServletRequest req, HttpServletResponse resp)`:
+
+    * There is **no need to override this method**, this method *receives the HTTP request from client and forwards them to the corresponding doXXX methods such as doGet(), doPost(), doHEAD() etc*.
+
+10. `public void service(ServletRequest req, ServletResponse res)`:
+
+    * *Forwards client request to the protected service method*.
+    * There’s **no need to override this method** as well.
+
+### Difference between GenericServlet and HttpServlet
+
+![diff btween GenServlet and httpServlet](image-2.png)
+![diff between GenServlet and HttpServlet2](image-3.png)
+
+### Difference between doGet() and doPost()
+
+![difference between doGet() and doPost()](image-4.png)
+
+## RequestDispatcher -
+
+* The RequestDispatcher is an Interface that comes under package javax.servlet.
+* The RequestDispatcher interface provides the facility of dispatching the request from one resource to another resource it may be html, servlet or jsp.
+* This interface can also be used to include the content of
+one resource to another resource also.
+* This interface has following two methods:
+    1. forward()
+    2. include()
+
+1. `public void forward(ServletRequest request, ServletResponse response)`:
+
+ It forwards the request from one servlet to another resource (such as servlet, JSP, HTML file).
+
+2. `public void include(ServletRequest request, ServletResponse response)`:
+
+ It includes the content of the resource(such as servlet, JSP, HTML file) in the response.
+
+### How to get an Object of RequestDispatchcer-
+
+`getRequestDispatcher()` of **ServletRequest** returns the object of **RequestDispatcher**.
+![1.obj of RequestDispatcher](image-5.png)
+![2. obj of RequestDispatcher](image-6.png)
+
+### SendRedirect in Servlet-
+
+* The `sendRedirect()` of HttpServletResponse interface ofjavax.servlet.httppackage can be used to redirect response to another resource, it may be servlet, jsp or html file.
+* It accepts relative as well as absolute URL.
+![SendRedirect](image-7.png)
+
+### Difference between `forward()` and `sendRedirect()`-
+
+![Diff forward() and sendRedirect()](image-8.png)
+![part 2](image-9.png)
+
