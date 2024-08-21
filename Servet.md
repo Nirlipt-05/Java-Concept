@@ -32,7 +32,7 @@ Any application  that is stored on a remote server and delivered over the Intern
 
 Web applications donot need to be downloaded since they are accessed through a network. Users can access a Web application through a web browser such as Google Chrome, Mozilla Firefox or Safari.
 
-For a webapp to operate, it needs a Web server and a database.Web servers manage the requests that come from a client.A database can be used to store any needed information.
+e For a webapp to operate, it needs a Web server and a database.Web servers manage the requests that come from a client.A database can be used to store any needed information.
 
 #### 4. Hybrid and Native application=
 
